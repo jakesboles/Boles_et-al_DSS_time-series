@@ -22,6 +22,9 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 
 <sup><sup>a</sup>Only mid-colon (termed "proximal") and distal colon samples were used in our study to compare with our distal and proximal samples.
 
+### Other original data:
+This includes data procured from lower-throughput assays used in the paper, including flow cytometry, immunoblotting, RT-qPCR, ELISAs/MesoScale Discovery assays, and daily disease monitoring.
+
 ## Code: 
 This project uses the `renv` package for package management. 
 All packages were loaded and up to date on July 30, 2023. 
