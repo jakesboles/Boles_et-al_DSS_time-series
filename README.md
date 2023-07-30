@@ -1,6 +1,6 @@
 # Boles_et-al_DSS_time-series
 
-**This repository is currently under construction**
+### **This repository is currently under construction**
 
 ### This repository contains code to reproduce analysis results and visualizations for data in:
 ### **An unbiased examination of a leaky gut's impact on the brain in a mouse model of colitis (*bioRxiv*)**
