@@ -16,5 +16,6 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 | [GSE131032](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE131032) | [Czarnewski et al., 2019 <br> *Nature Communcations*](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6598981/) | 2.5% DSS for 7d, followed by <br> 7d of recovery. Tissue taken <br> at days 0, 2, 4, 6, 8, 10, 12, 14 | Mid-colon |
 | [GSE168053](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168053)<sup>a</sup> | [Liu et al., 2022 <br> *Gastroenterology*](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9402284/) | 3% DSS for 6d, followed by <br> 14d of recovery. Tissue taken <br> at days 0, 3, 6, 9, 14, and 20 | Mid-colon ("proximal"), <br> distal, anal, <br> squamous neo-epithelium |
 | [GSE210405](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210405) | NA | 3% DSS for 6d, with tissue <br> harvested at days 0, 2, 4, and 6 | Mid-colon | 
+
 <sup><sup>a</sup>Only mid-colon (termed "proximal") and distal colon samples were used in our study to compare with our distal and proximal samples.
 
