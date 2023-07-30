@@ -39,7 +39,7 @@ create_from_github(
   protocol = "https"
 )
 ```
-Note that this requires the `usethis` package, which you may need to install with `install.packages("usethis")` if you don't have it already. 
+Note that this requires the `usethis` package, which you may need to install with `install.packages("usethis")` before executing the above code if you don't have it already. 
 This command will open a new RStudio Project file in the directory you specified. To install all packages:
 ```
 renv::restore()
