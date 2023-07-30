@@ -4,6 +4,3 @@
 .Ruserdata
 
 00_set_up_project.R
-
-renv/
-.Rprofile
