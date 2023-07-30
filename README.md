@@ -23,7 +23,6 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 <sup><sup>a</sup>Only mid-colon (termed "proximal") and distal colon samples were used in our study to compare with our distal and proximal samples.
 
 ## Code: 
-The renv.lock file contains all R packages needed to run the code provided.
-
+This project uses the `renv` package.
 All packages were loaded and up to date on July 30, 2023. 
 
