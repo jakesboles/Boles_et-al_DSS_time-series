@@ -23,6 +23,23 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 <sup><sup>a</sup>Only mid-colon (termed "proximal") and distal colon samples were used in our study to compare with our distal and proximal samples.
 
 ## Code: 
-This project uses the `renv` package.
+This project uses the `renv` package for package management. 
 All packages were loaded and up to date on July 30, 2023. 
+To clone this Github repository and adopt the version-controlled library, start a new RStudio session and run the following:
+```
+library(usethis)
+
+create_from_github(
+  'jakesboles/Boles_et-al_DSS_time-series',
+  destdir = 'PATH/TO/DIRECTORY',
+  fork = F,
+  protocol = "https"
+)
+```
+Note that this requires the `usethis` package, which you may need to install with `install.packages("usethis")` if you don't have it already. 
+This command will open a new RStudio Project file in the directory you specified. To install all packages:
+```
+renv::restore()
+```
+When prompted, input `y` in the console to accept changes to the renv.lock file. 
 
