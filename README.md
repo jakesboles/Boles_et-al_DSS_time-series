@@ -22,3 +22,5 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 
 <sup><sup>a</sup>Only mid-colon (termed "proximal") and distal colon samples were used in our study to compare with our distal and proximal samples.
 
+## Code: 
+
