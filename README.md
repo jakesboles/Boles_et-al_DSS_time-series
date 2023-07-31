@@ -46,5 +46,5 @@ This command will open a new RStudio Project file in the directory you specified
 ```
 renv::restore()
 ```
-When prompted, input `y` in the console to accept changes to the renv.lock file. 
+When prompted, input `y` in the console to accept changes to the renv.lock file. This will take some time if you are initializing the project for the first time!
 
