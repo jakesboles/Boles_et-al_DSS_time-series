@@ -22,6 +22,8 @@ renv::install(c("readxl", "ggpp", "psych"))
 
 renv::install("Matrix")
 
+renv::install("usethis")
+
 renv::settings$snapshot.type("all")
 
 renv::snapshot()
