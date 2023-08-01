@@ -33,7 +33,9 @@ All packages were loaded and up to date on July 31, 2023. The library was constr
 
 To get started, download the ZIP file to take a "snapshot" of this repository using the green button above. This will provide you with all the files you need without requiring Git credentials. Move this file to an appropriate place on your machine if necessary. 
 
-Then, start a new RStudio session and run the following:
+Create an R Project in an appropriate working directory. Don't use the default working directory on your machine after opening R/RStudio as this project uses `renv`, which may cause you some headache later as your global library and the `renv` library may come into conflict. 
+
+Open this R Project in its appropriate working directory and run:
 ```
 if (!require(usethis)) {
 install.packages("usethis")
@@ -44,9 +46,9 @@ library(usethis)
 usethis::use_course(
   'PATH/TO/ZIP/Boles_et-al_DSS_time-series-main.zip')
 ```
-This uses the `usethis` package, and it will be installed on your machine if it is not found already. Make sure you specify the appropriate file path to the zip file. If you want to create the resulting directory in a place other than the default working directory for R on your machine, you can specify the directory path using the `destdir` argument of the `use_course` function. Alternatively, you can create an R Project in a directory and run this function there, which will set the working directory to that folder on your machine. 
+This uses the `usethis` package, and it will be installed on your machine if it is not found already. Make sure you specify the appropriate file path to the zip file. 
 
-After the new directory is created, install all version-locked packages:
+Then, install all version-locked packages:
 ```
 renv::restore()
 ```
