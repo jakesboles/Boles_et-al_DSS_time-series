@@ -28,8 +28,8 @@ This can be accessed via the NCBI GEO (insert GSE number when submission is comp
 This includes data procured from lower-throughput assays used in the paper, including flow cytometry, immunoblotting, RT-qPCR, ELISAs, MesoScale Discovery assays, and daily disease monitoring.
 
 ## Code: 
-This project uses the `renv` package for package management. 
-All packages were loaded and up to date on July 30, 2023. 
+This project was run in R v4.2-4.3. It uses the `renv` package for package management.
+All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.3. 
 To clone this Github repository and adopt the version-controlled library, start a new RStudio session and run the following:
 ```
 library(usethis)
@@ -46,5 +46,5 @@ This command will open a new RStudio Project file in the directory you specified
 ```
 renv::restore()
 ```
-When prompted, input `y` in the console to accept changes to the renv.lock file. This will take some time if you are initializing the project for the first time!
+When prompted, input `y` in the console to accept changes to the renv.lock file. This could take some time if you are initializing the project for the first time!
 
