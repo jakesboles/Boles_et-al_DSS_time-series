@@ -32,6 +32,10 @@ This project was run in R v4.2. It uses the `renv` package for package managemen
 All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.2, using Bioconductor v.3.16. 
 To clone this Github repository and adopt the version-controlled library, start a new RStudio session and run the following:
 ```
+if (!require(usethis)) {
+install.packages("usethis")
+}
+
 library(usethis)
 
 create_from_github(
@@ -41,8 +45,7 @@ create_from_github(
   protocol = "https"
 )
 ```
-Note that this requires the `usethis` package, which you may need to install with `install.packages("usethis")` before executing the above code if you don't have it already. 
-This command will open a new RStudio Project file in the directory you specified. To install all packages:
+This uses the `usethis` package, and it will be installed on your machine if it is not found already. This command will open a new RStudio Project file in the directory you specified. To install all packages:
 ```
 renv::restore()
 ```
