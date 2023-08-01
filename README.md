@@ -29,7 +29,7 @@ This includes data procured from lower-throughput assays used in the paper, incl
 
 ## Code: 
 This project was run in R v4.2-4.3. It uses the `renv` package for package management.
-All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.3. 
+All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.2, using Bioconductor v.3.16. 
 To clone this Github repository and adopt the version-controlled library, start a new RStudio session and run the following:
 ```
 library(usethis)
