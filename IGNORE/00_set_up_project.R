@@ -1,5 +1,7 @@
 #Load version-controlled package and establish the locked environment 
-#All packages were loaded and up-to-date on July 30, 2023
+#All packages were loaded and up-to-date on August 1, 2023
+
+#Use this script to rebuild the renv in case of failures during testing/development...
 
 library(renv)
 renv::init()
