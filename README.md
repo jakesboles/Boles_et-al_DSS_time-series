@@ -30,7 +30,10 @@ This includes data procured from lower-throughput assays used in the paper, incl
 ## Code: 
 This project was run in R v4.2. It uses the `renv` package for package management.
 All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.2, using Bioconductor v.3.16. 
-To clone this Github repository and adopt the version-controlled library, start a new RStudio session and run the following:
+
+To get started, download the ZIP file to take a "snapshot" of this repository using the green button above. This will provide you with all the files you need without requiring Git credentials. Move this file to an appropriate place on your machine if necessary. 
+
+Then, start a new RStudio session and run the following:
 ```
 if (!require(usethis)) {
 install.packages("usethis")
@@ -38,16 +41,14 @@ install.packages("usethis")
 
 library(usethis)
 
-create_from_github(
-  'jakesboles/Boles_et-al_DSS_time-series',
-  destdir = 'PATH/TO/DIRECTORY',
-  fork = F,
-  protocol = "https"
-)
+usethis::use_course(
+  'PATH/TO/ZIP/Boles_et-al_DSS_time-series-main.zip')
 ```
-This uses the `usethis` package, and it will be installed on your machine if it is not found already. This command will open a new RStudio Project file in the directory you specified. To install all packages:
+This uses the `usethis` package, and it will be installed on your machine if it is not found already. Make sure you specify the appropriate file path to the zip file. If you want to create the resulting directory in a place other than the default working directory for R on your machine, you can specify the directory path using the `destdir` argument of the `use_course` function. Alternatively, you can create an R Project in a directory and run this function there, which will set the working directory to that folder on your machine. 
+
+After the new directory is created, install all version-locked packages:
 ```
 renv::restore()
 ```
-When prompted, input `y` in the console to accept changes to the renv.lock file. This could take some time if you are initializing the project for the first time!
+If prompted, input `y` in the console to accept changes to the renv.lock file. This could take some time if you are initializing the project for the first time!
 
