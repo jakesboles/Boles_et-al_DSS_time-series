@@ -10,10 +10,10 @@ Boles, J. S.<sup>1</sup>, Krueger, M. E., Jernigan, J. E., Cole, C. L., Neighbar
 
 ## Data:
 ### Original bulk RNA-sequencing data:
-This can be accessed via the NCBI GEO (insert GSE number when submission is completed(insert link)). We have included:
+This can be accessed via the NCBI GEO ([GSE239820](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239820)). We have included:
 1. Raw FASTQ files from paired-end reads (two files per sample) 
-2. Raw transcript counts after read mapping and counting. These data are in "raw_counts.csv"(insert link). The key can be found in the metadata at the GEO entry page. 
-3. Processed and normalized counts after the removal of low-quality genes and samples. These are the data used to arrive at the conclusions in the paper above. These data are separated into colon ("colon_VST_counts_3.csv"(insert link)) and brain ("brain_VST_counts_3.csv"(insert link)). The sample key can be found in the metadata at the GEO entry page. 
+2. Raw transcript counts after read mapping and counting. These data are in "raw_counts.csv". The key can be found in the metadata at the GEO entry page. 
+3. Processed and normalized counts after the removal of low-quality genes and samples. These are the data used to arrive at the conclusions in the paper above. These data are separated into colon ("colon_VST_counts_3.csv") and brain ("brain_VST_counts_3.csv"). The sample key can be found in the metadata at the GEO entry page. 
 
 ### Publicly available datasets used here:
 | Dataset | Publication | DSS schedule | Colon regions examined |
