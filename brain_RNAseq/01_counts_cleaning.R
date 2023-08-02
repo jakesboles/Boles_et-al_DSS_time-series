@@ -43,4 +43,4 @@ dds
 dds <- DESeq(dds)
 
 write.csv(assay(vsd),                            #write this to a CSV file for next step
-          file = "brain_RNAseq/vst_counts_1.csv")
+          file = "brain_RNAseq/csv_outputs/vst_counts_1.csv")
