@@ -31,11 +31,7 @@ This includes data procured from lower-throughput assays used in the paper, incl
 This project was run in R v4.2. It uses the `renv` package for package management.
 All packages were loaded and up to date on July 31, 2023. The library was constructed to be compatible with R v.4.2, using Bioconductor v.3.16. 
 
-To get started, download the ZIP file to take a "snapshot" of this repository using the green button above. This will provide you with all the files you need without requiring Git credentials. Move this file to an appropriate place on your machine if necessary. 
-
-Create an R Project in an appropriate working directory. Don't use the default working directory on your machine after opening R/RStudio as this project uses `renv`, which may cause you some headache later as your global library and the `renv` library may come into conflict. 
-
-Open this R Project in its appropriate working directory and run:
+To get started, open a new RStudio session and run:
 ```
 if (!require(usethis)) {
 install.packages("usethis")
@@ -44,9 +40,10 @@ install.packages("usethis")
 library(usethis)
 
 usethis::use_course(
-  'PATH/TO/ZIP/Boles_et-al_DSS_time-series-main.zip')
+  'jakesboles/Boles_et-al_DSS_time-series',
+  destdir = 'PATH/TO/DIRECTORY')
 ```
-This uses the `usethis` package, and it will be installed on your machine if it is not found already. Make sure you specify the appropriate file path to the zip file. 
+This uses the `usethis` package, and it will be installed on your machine if it is not found already. Specify the destination directory appropriately. A new folder in the destination directory will be created and the new RStudio session should launch.  
 
 Then, install all version-locked packages:
 ```
