@@ -3,7 +3,7 @@
 **This repository is currently under construction**
 
 ### This repository contains code to reproduce analysis results and visualizations for data in:
-### **An unbiased examination of a leaky gut's impact on the brain in a mouse model of colitis (*bioRxiv*)**
+### **A leaky gut dysregulates gene networks in the brain associated with immune activation, oxidative stress, and myelination in a mouse model of colitis (*bioRxiv*)**
 Boles, J. S.<sup>1</sup>, Krueger, M. E., Jernigan, J. E., Cole, C. L., Neighbarger, N. K., Uriarte Huarte, O., & Tansey, M. G.
 
 <sup><sup>1</sup> Analysis lead and contact (jake.boles@ufl.edu)</sup>
