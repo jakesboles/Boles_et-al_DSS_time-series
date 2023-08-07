@@ -2,3 +2,11 @@
 .Rhistory
 .RData
 .Ruserdata
+
+brain_RNAseq/csv_outputs
+brain_RNAseq/data_objects
+brain_RNAseq/plots
+
+colon_RNAseq/csv_outputs
+colon_RNAseq/data_objects
+colon_RNAseq/plots
