@@ -862,6 +862,38 @@
       ],
       "Hash": "56c6305f19e55be9e27577a91f9008f0"
     },
+    "anRichment": {
+      "Package": "anRichment",
+      "Version": "1.22",
+      "Source": "unknown",
+      "Requirements": [
+        "AnnotationDbi",
+        "GO.db",
+        "TxDb.Hsapiens.UCSC.hg19.knownGene",
+        "TxDb.Mmusculus.UCSC.mm10.knownGene",
+        "WGCNA",
+        "XML",
+        "anRichmentMethods",
+        "dynamicTreeCut",
+        "stats",
+        "utils"
+      ],
+      "Hash": "5f39b1a773e57b3c429114591acb3ccd"
+    },
+    "anRichmentMethods": {
+      "Package": "anRichmentMethods",
+      "Version": "0.96-86",
+      "Source": "unknown",
+      "Requirements": [
+        "AnnotationDbi",
+        "GO.db",
+        "R",
+        "Rcpp",
+        "WGCNA",
+        "dynamicTreeCut"
+      ],
+      "Hash": "3eea2ab3bd2d5e51389c9c0e54b6181f"
+    },
     "annotate": {
       "Package": "annotate",
       "Version": "1.76.0",
