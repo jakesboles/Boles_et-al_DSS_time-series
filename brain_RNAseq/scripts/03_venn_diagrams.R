@@ -40,14 +40,18 @@ vd <- function(direction = c("up", "down"), .group){
   if(direction == "up") data.list <- list.filter(data.list, log2FoldChange > 0)
   if(direction == "down") data.list <- list.filter(data.list, log2FoldChange < 0)
   
-  ctx <- data.list[[1]][[group]] %>%
-    pull(X)
-  hpc <- data.list[[2]][[group]] %>%
-    pull(X)
-  mb <- data.list[[3]][[group]] %>%
-    pull(X)
-  str <- data.list[[4]][[group]] %>%
-    pull(X)
+  if(direction == "up") {
+    ctx <- data.list[[1]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    hpc <- data.list[[2]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    mb <- data.list[[3]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    str <- data.list[[4]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+  }
+  if(direction == "down") {
+    ctx <- data.list[[1]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    hpc <- data.list[[2]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    mb <- data.list[[3]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    str <- data.list[[4]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+  }
   
   venn.diagram(
     x = list(ctx, hpc, mb, str),
