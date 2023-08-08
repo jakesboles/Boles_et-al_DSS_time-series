@@ -1,1 +1,1 @@
-In between scripts 04 and 05, 
+In between scripts 04 and 05, a gene-set proximity analysis ([Cousins et al., 2023, *Bioinformatics*](https://academic.oup.com/bioinformatics/article/39/1/btac735/6832036?login=true))
