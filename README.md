@@ -49,5 +49,5 @@ usethis::use_course(
 ```
 This uses the `usethis` package, and it will be installed on your machine if it is not found already. Specify the destination directory appropriately. A new folder in the destination directory will be created and the new RStudio session should launch.  
 
-Then, initialize the project by running `00_initialize_project.R`. This will create sub-folders to store output from the pipeline and install all version-locked packages. You may be prompted to confirm package installation in the console. This may take some time! 
+Then, initialize the project by running `00_initialize_project.R` in the newly created R Project. This will create sub-folders to store output from the pipeline and install all version-locked packages. You may be prompted to confirm package installation in the console. This may take some time! 
 
