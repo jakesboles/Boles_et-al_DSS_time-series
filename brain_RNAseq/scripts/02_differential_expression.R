@@ -2,6 +2,7 @@
 
 library(DESeq2)
 library(tidyverse)
+library(ggpubr)
 
 load("brain_RNAseq/data_objects/deseq2_objects.RData")
 
