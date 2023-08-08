@@ -7,4 +7,7 @@ for (i in dir1){
   }
 }
 
+dir.create(paste0(dir1[1], "gspa_input"))
+dir.create(paste0(dir1[1], "gspa_output"))
+
 renv::restore()
