@@ -6,6 +6,8 @@
 brain_RNAseq/csv_outputs
 brain_RNAseq/data_objects
 brain_RNAseq/plots
+brain_RNAseq/gspa_input
+brain_RNAseq/gspa_output
 
 colon_RNAseq/csv_outputs
 colon_RNAseq/data_objects
