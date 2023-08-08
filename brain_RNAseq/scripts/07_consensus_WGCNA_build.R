@@ -7,6 +7,8 @@ library(WGCNA)
 options(stringsAsFactors = F)
 enableWGCNAThreads() #enable parallel processing will only work on a HPC of some sort 
 
+plots <- "brain_RNAseq/plots/"
+
 load("brain_RNAseq/consensus_WGCNA_input.RData")
 
 nSets <- checkSets(multiExpr)$nSets
@@ -35,6 +37,7 @@ for (set in 1:nSets){
 }
 
 sizeGrWindow(8, 6)
+pdf(paste0(plots, "soft_power_selection.pdf"), height = 6, width = 8)
 par(mfcol = c(2,2))
 par(mar = c(4.2, 4.2, 2.2, 0.5))
 cex1 = 0.7
@@ -59,22 +62,26 @@ for (col in 1:length(plotCols)) for (set in 1:nSets){
   } else
     legend("topright", legend = setLabels, col = colors, pch = 20)
 }
+dev.off()
 
+#Choosing a soft power of 6 to maximize R^2 at lowest power for all networks
 softPower <- 6
 adjacencies <- array(0, dim = c(nSets, nGenes, nGenes))
 
-#SIGNED HYBRID:
+#SIGNED HYBRID network:
 for (set in 1:nSets) {
   adjacencies[set, , ] <- cor(multiExpr[[set]]$data, use = "p") #calculate correlation coefficient
   adjacencies[set, , ][adjacencies[set , , ] < 0] <- 0 #where coef < 0, set to 0 (hard network)
   adjacencies[set, , ] <- adjacencies[set , , ]^softPower #scale up positive coef (soft network)
 } 
 
+#Create the topological overlap matrix
 TOM <- array(0, dim = c(nSets, nGenes, nGenes))
 for (set in 1:nSets){
   TOM[set, , ] <- TOMsimilarity(adjacencies[set, , ], TOMType = "signed")
 }
 
+#Scaling the TOM so all 95th quantiles are equal across networks
 scaleP <- 0.95
 set.seed(12345)
 nSamples <- as.integer(1/(1-scaleP) * 1000)
@@ -101,6 +108,7 @@ for (set in 1:nSets){
 }
 
 sizeGrWindow(6,6)
+pdf(paste0(plots, "scaled_TOMs_ctx-vs-mb.pdf"), height = 6, width = 6)
 qqUnscaled <- qqplot(TOMScalingSamples[[1]], TOMScalingSamples[[2]], plot.it = T,
                      cex = 0.6, xlab = paste("TOM in", setLabels[1]),
                      ylab = paste("TOM in", setLabels[2]),
@@ -110,8 +118,10 @@ points(qqScaled$x, qqScaled$y, col = "red", cex = 0.6, pch = 20)
 abline(a = 0, b = 1, col = "blue")
 legend("topleft", legend = c("Unscaled TOM", "Scaled TOM"), pch = 20, 
        col = c("black", "red"))
+dev.off()
 
 sizeGrWindow(6,6)
+pdf(paste0(plots, "scaled_TOMs_ctx-vs-hpc.pdf"), height = 6, width = 6)
 qqUnscaled <- qqplot(TOMScalingSamples[[1]], TOMScalingSamples[[3]], plot.it = T,
                      cex = 0.6, xlab = paste("TOM in", setLabels[1]),
                      ylab = paste("TOM in", setLabels[3]),
@@ -121,8 +131,10 @@ points(qqScaled$x, qqScaled$y, col = "red", cex = 0.6, pch = 20)
 abline(a = 0, b = 1, col = "blue")
 legend("topleft", legend = c("Unscaled TOM", "Scaled TOM"), pch = 20, 
        col = c("black", "red"))
+dev.off()
 
 sizeGrWindow(6,6)
+pdf(paste0(plots, "scaled_TOMs_ctx-vs-str.pdf"), height = 6, width = 6)
 qqUnscaled <- qqplot(TOMScalingSamples[[1]], TOMScalingSamples[[4]], plot.it = T,
                      cex = 0.6, xlab = paste("TOM in", setLabels[1]),
                      ylab = paste("TOM in", setLabels[4]),
@@ -132,12 +144,16 @@ points(qqScaled$x, qqScaled$y, col = "red", cex = 0.6, pch = 20)
 abline(a = 0, b = 1, col = "blue")
 legend("topleft", legend = c("Unscaled TOM", "Scaled TOM"), pch = 20, 
        col = c("black", "red"))
+dev.off()
 
+#Consensus is defined by the minimum weight
 consensusTOM <- pmin(TOM[1, , ], TOM[2, , ], TOM[3, , ], TOM[4, , ])
 
+#Cluster genes with average linkage
 consTree <- hclust(as.dist(1-consensusTOM), method = "average")
 
-minModuleSize = 30
+#Gene dendrogram with a minimum cluster size of 30
+minModuleSize <- 30
 
 unmergedLabels <- cutreeDynamic(dendro = consTree, distM = 1 - consensusTOM,
                                 deepSplit = 2, cutHeight = 0.995,
@@ -156,11 +172,16 @@ consMEDiss <- consensusMEDissimilarity(unmergedMEs) #calculate consensus dissimi
 consMETree <- hclust(as.dist(consMEDiss), method = "average")
 
 sizeGrWindow(7, 6)
+pdf(paste0(plots, "consensus_eigengene_dendrogram.pdf"), height = 6, width = 7)
 par(mfrow = c(1,1))
 plot(consMETree, main = "Consensus clustering of consensus module eigengenes",
      xlab = "", sub = clustering)
 abline(h = 0.25, col = "red")
+dev.off()
 
+#Merge modules based on dissimilarity
+#In this case, a dissimilarity of 0.25 was used as the threshold for merging
+#In other words, modules that are 75% similar are moerged
 merge <- mergeCloseModules(multiExpr, unmergedLabels, cutHeight = 0.25, verbose = 3)
 
 moduleLabels <- merge$colors
@@ -168,9 +189,11 @@ moduleColors <- labels2colors(moduleLabels)
 consMEs <- merge$newMEs
 
 sizeGrWindow(9, 6)
+pdf(paste0(plots, "consensus_cluster_dendrogram.pdf"), height = 6, width = 9)
 plotDendroAndColors(consTree, cbind(unmergedColors, moduleColors),
                     c("Unmerged", "Merged"),
                     dendroLabels = F, hang = 0.03,
                     addGuide = T, guideHang = 0.05)
+dev.off()
 
 save(consMEs, moduleColors, moduleLabels, consTree, file = "consensus_network.RData")
