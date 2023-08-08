@@ -11,48 +11,39 @@ library(org.Mm.eg.db) #Bioc
 library(org.Hs.eg.db) #Bioc
 library(AnnotationDbi) #Bioc
 library(DESeq2)
+library(nichenetr)
 library(rlist)
 library(apeglm)
 
-mapfun <- function(mousegenes){
-  gns <- mapIds(org.Mm.eg.db, mousegenes, "ENTREZID", "SYMBOL")
-  mapped <- select(Orthology.eg.db, gns, "Homo_sapiens","Mus_musculus")
-  naind <- is.na(mapped$Homo_sapiens)
-  hsymb <- mapIds(org.Hs.eg.db, as.character(mapped$Homo_sapiens[!naind]), "SYMBOL", "ENTREZID")
-  out <- data.frame(Mouse_symbol = mousegenes, mapped, Human_symbol = NA)
-  out$Human_symbol[!naind] <- hsymb
-  out
-}
+load("brain_RNAseq/data_objects/regional_deseq.RData")
 
-#INSERT DESEQ2 OBJECT LOADING HERE
+c_gr1 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
+c_gr2 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
+c_gr3 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
+c_gr4 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
+c_gr5 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
+c_gr6 <- as.data.frame(lfcShrink(ctx_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
 
-c_gr1 <- as.data.frame(lfcShrink(c_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
-c_gr2 <- as.data.frame(lfcShrink(c_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
-c_gr3 <- as.data.frame(lfcShrink(c_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
-c_gr4 <- as.data.frame(lfcShrink(c_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
-c_gr5 <- as.data.frame(lfcShrink(c_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
-c_gr6 <- as.data.frame(lfcShrink(c_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
+m_gr1 <- as.data.frame(lfcShrink(mb_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
+m_gr2 <- as.data.frame(lfcShrink(mb_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
+m_gr3 <- as.data.frame(lfcShrink(mb_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
+m_gr4 <- as.data.frame(lfcShrink(mb_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
+m_gr5 <- as.data.frame(lfcShrink(mb_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
+m_gr6 <- as.data.frame(lfcShrink(mb_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
 
-m_gr1 <- as.data.frame(lfcShrink(m_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
-m_gr2 <- as.data.frame(lfcShrink(m_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
-m_gr3 <- as.data.frame(lfcShrink(m_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
-m_gr4 <- as.data.frame(lfcShrink(m_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
-m_gr5 <- as.data.frame(lfcShrink(m_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
-m_gr6 <- as.data.frame(lfcShrink(m_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
+h_gr1 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
+h_gr2 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
+h_gr3 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
+h_gr4 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
+h_gr5 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
+h_gr6 <- as.data.frame(lfcShrink(hpc_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
 
-h_gr1 <- as.data.frame(lfcShrink(h_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
-h_gr2 <- as.data.frame(lfcShrink(h_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
-h_gr3 <- as.data.frame(lfcShrink(h_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
-h_gr4 <- as.data.frame(lfcShrink(h_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
-h_gr5 <- as.data.frame(lfcShrink(h_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
-h_gr6 <- as.data.frame(lfcShrink(h_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
-
-s_gr1 <- as.data.frame(lfcShrink(s_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
-s_gr2 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
-s_gr3 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
-s_gr4 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
-s_gr5 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
-s_gr6 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
+s_gr1 <- as.data.frame(lfcShrink(str_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
+s_gr2 <- as.data.frame(lfcShrink(str_dds, coef = "group_7d_DSS_vs_Untreated", type = "apeglm"))
+s_gr3 <- as.data.frame(lfcShrink(str_dds, coef = "group_7d_DSS_2d_H2O_vs_Untreated", type = "apeglm"))
+s_gr4 <- as.data.frame(lfcShrink(str_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated", type = "apeglm"))
+s_gr5 <- as.data.frame(lfcShrink(str_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
+s_gr6 <- as.data.frame(lfcShrink(str_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
 
 gspa_genes <- read.csv("brain_RNAseq/gspa_genes.csv")
 gspa_genes <- gspa_genes %>%
