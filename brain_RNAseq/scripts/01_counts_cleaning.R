@@ -261,8 +261,7 @@ vsd0 <- vsd0 %>%
   as.matrix()
 
 all.equal(vsd, vsd0)
-#This should return TRUE, indicating the matrix we've created here is identical \
-#to that used in the paper 
+#This should return TRUE, indicating the matrix we've created here is identical to that used in the paper 
 
 #Save cleaned VST counts for later use
 write.csv(vsd, file = "brain_RNAseq/csv_outputs/vst_counts.csv",
