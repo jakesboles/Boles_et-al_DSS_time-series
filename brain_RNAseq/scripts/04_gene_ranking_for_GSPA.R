@@ -24,6 +24,8 @@ mapfun <- function(mousegenes){
   out
 }
 
+dir.create("brain_RNAseq/gspa_input")
+
 #INSERT DESEQ2 OBJECT LOADING HERE
 
 c_gr1 <- as.data.frame(lfcShrink(c_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
@@ -54,9 +56,7 @@ s_gr4 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_5d_H2O_vs_Untreated
 s_gr5 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_7d_H2O_vs_Untreated", type = "apeglm"))
 s_gr6 <- as.data.frame(lfcShrink(s_dds, coef = "group_7d_DSS_14d_H2O_vs_Untreated", type = "apeglm"))
 
-con <- gzcon(url()) #GET EMBEDDINGS LIST HERE
-csv <- readLines(con)
-gspa_genes <- read.csv(textConnection(csv))
+gspa_genes <- read.csv("brain_RNAseq/gspa_genes.csv")
 gspa_genes <- gspa_genes %>%
   pull(2)
 
@@ -79,7 +79,7 @@ for (i in seq_along(dfs)){
   
   dfs[[i]] <- dfs[[i]][dfs[[i]]$X %in% gspa_genes, ] #select only genes that are found in GSPA embeddings
   
-  write.table(dfs[[i]], file = paste0("RNAseq/csv_outputs3/gspa_input/", #write tab-separated 
+  write.table(dfs[[i]], file = paste0("brain_RNAseq/gspa_input/", #write tab-separated 
                                       names(dfs)[i], ".rnk"),            #.rnmk files for export 
               row.names = F, col.names = F,
               sep = "\t",
