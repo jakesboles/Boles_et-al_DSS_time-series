@@ -194,7 +194,7 @@ exprSize <- checkSets(multiExpr)
 exprSize
 
 gsg <- goodSamplesGenesMS(multiExpr, verbose = 10)
-gsg$allOK #this flags 5 more genes for removal 
+gsg$allOK #this flags 4 more genes for removal 
 
 if (!gsg$allOK){
   # Print information about the removed genes:
@@ -214,3 +214,56 @@ if (!gsg$allOK){
   exprSize = checkSets(multiExpr)
 }
 exprSize
+
+#Remove flagged genes from raw data (again)
+gene_index <- rownames(counts) %in% colnames(multiExpr[[1]]$data)
+counts <- counts[gene_index, ]
+
+#Normalize (again)
+dds <- DESeqDataSetFromMatrix(countData = counts,
+                              colData = brain_key,
+                              design = ~ tissue + group)
+dds <- DESeq(dds)
+vsd <- varianceStabilizingTransformation(dds, blind = T)
+vsd <- assay(vsd)
+
+#Check for bad genes (again)
+ctx <- vsd[, colnames(vsd) %in% brain_key[grep("cortex", brain_key$tissue), ]$FileID]
+mb <- vsd[, colnames(vsd) %in% brain_key[grep("midbrain", brain_key$tissue), ]$FileID]
+hpc <- vsd[, colnames(vsd) %in% brain_key[grep("hippocampus", brain_key$tissue), ]$FileID]
+str <- vsd[, colnames(vsd) %in% brain_key[grep("striatum", brain_key$tissue), ]$FileID]  
+
+multiExpr <- vector(mode = "list", length = nSets)
+multiExpr[[1]] <- list(data = as.data.frame(t(ctx)))
+rownames(multiExpr[[1]]$data) <- names(ctx)
+
+multiExpr[[2]] <- list(data = as.data.frame(t(mb)))
+rownames(multiExpr[[2]]$data) <- names(mb)
+
+multiExpr[[3]] <- list(data = as.data.frame(t(hpc)))
+rownames(multiExpr[[3]]$data) <- names(hpc)
+
+multiExpr[[4]] <- list(data = as.data.frame(t(str)))
+rownames(multiExpr[[4]]$data) <- names(str)
+
+exprSize <- checkSets(multiExpr)
+exprSize
+
+gsg <- goodSamplesGenesMS(multiExpr, verbose = 10)
+gsg$allOK #all good now! 
+
+#Scrape uploaded VST-counts from our GEO submission to compare
+con <- gzcon(url("https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE239820&format=file&file=GSE239820%5Fbrain%5Fclean%5FVST%5Fcounts%2Ecsv%2Egz"))
+lines <- readLines(con)
+vsd0 <- read.csv(textConnection(lines))
+vsd0 <- vsd0 %>%
+  column_to_rownames(var = "X") %>%
+  as.matrix()
+
+all.equal(vsd, vsd0)
+#This should return TRUE, indicating the matrix we've created here is identical \
+#to that used in the paper 
+
+#Save cleaned VST counts for later use
+write.csv(vsd, file = "brain_RNAseq/csv_outputs/vst_counts.csv",
+          col.names = T, row.names = T)
