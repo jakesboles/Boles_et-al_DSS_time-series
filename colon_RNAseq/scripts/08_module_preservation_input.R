@@ -1,0 +1,2 @@
+#This script scrapes the three publicly available datasets off of GEO and prepares them for module preservation analysis
+#These datasets are cleaned such that only genes found in our original data will be included in them 

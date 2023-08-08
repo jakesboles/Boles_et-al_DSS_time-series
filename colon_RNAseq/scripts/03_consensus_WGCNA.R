@@ -1,0 +1,1 @@
+#This script builds the consensus weighted co-expression network in our two colon segments 

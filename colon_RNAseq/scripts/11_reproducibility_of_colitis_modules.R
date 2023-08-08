@@ -1,0 +1,2 @@
+#This script calculates module eigengenes in all four datasets used and creates a function to plot all eigengenes in one patchwork figure 
+#This can be used to quickly compare the expression profiles of modules between datasets
