@@ -13,7 +13,7 @@ for (i in seq_along(data.list)){
   data.list[[i]] <- vector("list", length = 6)
 }
 
-dfs <- c(ctx_dds, hpc_dds, mb_dds, str_dds)
+dfs <- list(ctx_dds, hpc_dds, mb_dds, str_dds)
 groups <- c("5d_DSS", "7d_DSS", "7d_DSS_2d_H2O", "7d_DSS_5d_H2O",
             "7d_DSS_7d_H2O", "7d_DSS_14d_H2O")
 
@@ -22,10 +22,11 @@ group_num <- c(1, 2, 3, 4, 5, 6)
 
 for (i in seq_along(dfs)){
   for (j in seq_along(groups)){
-    data.list[[i]][[j]] <- results(tissues[i],
+    data.list[[i]][[j]] <- results(dfs[[i]],
                                    contrast = c("group", groups[j], "Untreated"))
     
     data.list[[i]][[j]] <- data.list[[i]][[j]] %>%
+      as.data.frame() %>%
       rownames_to_column(var = "X") %>%
       mutate(group = group_num[j] %>%
                as.numeric(),
@@ -35,22 +36,19 @@ for (i in seq_along(dfs)){
 }
 
 vd <- function(direction = c("up", "down"), .group){
-  dir_title <- str_to_title(direction)
-  
-  if(direction == "up") data.list <- list.filter(data.list, log2FoldChange > 0)
-  if(direction == "down") data.list <- list.filter(data.list, log2FoldChange < 0)
+  direction_title <- str_to_title(direction)
   
   if(direction == "up") {
-    ctx <- data.list[[1]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
-    hpc <- data.list[[2]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
-    mb <- data.list[[3]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
-    str <- data.list[[4]][[group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    ctx <- data.list[[1]][[.group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    hpc <- data.list[[2]][[.group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    mb <- data.list[[3]][[.group]] %>% filter(log2FoldChange > 0) %>% pull(X)
+    str <- data.list[[4]][[.group]] %>% filter(log2FoldChange > 0) %>% pull(X)
   }
   if(direction == "down") {
-    ctx <- data.list[[1]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
-    hpc <- data.list[[2]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
-    mb <- data.list[[3]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
-    str <- data.list[[4]][[group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    ctx <- data.list[[1]][[.group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    hpc <- data.list[[2]][[.group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    mb <- data.list[[3]][[.group]] %>% filter(log2FoldChange < 0) %>% pull(X)
+    str <- data.list[[4]][[.group]] %>% filter(log2FoldChange < 0) %>% pull(X)
   }
   
   venn.diagram(
@@ -88,4 +86,9 @@ vd <- function(direction = c("up", "down"), .group){
   print(list)
   write.csv(list, file = paste0("brain_RNAseq/csv_outputs/", direction, "_degs_group_", .group, ".csv"),
             row.names = T)
+}
+
+for (i in 1:6){
+  vd("up", i)
+  vd("down", i)
 }
