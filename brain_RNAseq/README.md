@@ -1,2 +1,5 @@
+## GSPA
 In between scripts 04 and 05, a gene-set proximity analysis ([Cousins et al., 2023, *Bioinformatics*](https://academic.oup.com/bioinformatics/article/39/1/btac735/6832036?login=true)) was performed on the set of ranked gene lists generated in 04.
 The output from this analysis was used in 05. 
+
+Please refer to Henry Cousins's [GSPA](https://github.com/henrycousins/gspa/tree/main) repository for installation and environment setup. 
