@@ -8,7 +8,7 @@ This analysis considers only a subset of genes, based on high-confidence protein
 ```
 ```
 
-Before running 05, grab the `.gmt` file containing the gene sets of interest. I used the gene symbols `.gmt` file from [MSigDB's human hallmark gene sets (v.2023.1.Hs)](https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp). Deposit this in `gspa/gene_sets` and name the file however you want. I called it `msigdb_hallmark.gtm` as I was testing other collections. 
+Before running 05, grab the `.gmt` file containing the gene sets of interest. I used the gene symbols `.gmt` file from [MSigDB's human hallmark gene sets (v.2023.1.Hs)](https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp). Deposit this in `gspa/gene_sets` and name the file however you want. I called it `msigdb_hallmark.gmt` as I was testing other collections. 
 
 In script 04, a set of `.rnk` files are created. I put these files in their own `rnk_files` sub-directory. Then, Python v.3.10 was loaded in the HPC and the GSPA was run with the following commands in a Slurm script:
 ```
@@ -32,4 +32,4 @@ done
 After the analysis is finished, move the entire `gspa_output` folder into the `brain_RNAseq` directory of this GitHub repository. 
 
 ## WGCNA
-Many of the operations performed to create and evaluate the consensus and tissue-specific co-expression networks, including the data prep, network construction, eigengene calculation, correlation with external features, and calculation of gene-level membership and trait association statistics, come directly from the [WGCNA tutorial](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). This is an excellent collection of resources. 
+Many of the operations performed to create and evaluate the consensus and tissue-specific co-expression networks, including the data prep, network construction, eigengene calculation, correlation with external features, and calculation of gene-level membership and trait association statistics, come directly from the [WGCNA tutorial](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). This is an excellent collection of resources, and I would refer you to this collection of tutorials if you wanted to perform your own co-expression network analysis. 
