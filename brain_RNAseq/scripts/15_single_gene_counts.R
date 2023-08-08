@@ -1,0 +1,2 @@
+#This will use the DESeq2 object created in 01 to plot the normalized counts of individual genes
+#In the paper, genes of interest were identified based on module membership and functional pathway attribution according to anRichment (13)

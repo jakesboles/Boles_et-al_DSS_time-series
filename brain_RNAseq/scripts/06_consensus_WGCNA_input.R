@@ -1,0 +1,1 @@
+#This script builds the input for the consensus WGCNA, and creates a layered trait object for later use. 

@@ -1,0 +1,2 @@
+#This script calculates consensus module eigengenes are correlates them with the external traits measured in this study,
+#including colitis severity measures and circulating inflammatory markers, all of which can be found in traits.csv

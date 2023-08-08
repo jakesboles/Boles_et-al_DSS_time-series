@@ -1,0 +1,2 @@
+#This script follows the same parameters identified in 07 to create weight co-expression networks in each brain region separately. 
+#The only purpose of this analysis is to later perform one way of evaluating how well the consensus network is preserved in all four regions.

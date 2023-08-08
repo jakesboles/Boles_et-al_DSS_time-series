@@ -1,0 +1,1 @@
+#This script creates many DESeq2 result objects from our DESeq2 object created in 01 and generates clean volcano plots displaying the results.
