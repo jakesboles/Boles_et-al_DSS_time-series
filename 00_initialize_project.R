@@ -6,3 +6,5 @@ for (i in dir1){
     dir.create(paste0(i, j))
   }
 }
+
+renv::restore()
