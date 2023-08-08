@@ -18,7 +18,7 @@ mb_counts <- counts[, coldata$tissue %in% "midbrain"]
 mb_coldata <- coldata[coldata$FileID %in% colnames(mb_counts), ]
 
 str_counts <- counts[, coldata$tissue %in% "striatum"]
-str_coldata <- coldata[coldata$fileID %in% colnames(str_counts), ]
+str_coldata <- coldata[coldata$FileID %in% colnames(str_counts), ]
 
 ctx_dds <- DESeqDataSetFromMatrix(ctx_counts, 
                                   ctx_coldata,
@@ -76,13 +76,13 @@ for (i in seq_along(data.list)){
   data.list[[i]] <- vector("list", length = 6)
 }
 
-tissues <- c(ctx_dds, hpc_dds, mb_dds, str_dds)
+tissues <- list(ctx_dds, hpc_dds, mb_dds, str_dds)
 groups <- c("5d_DSS", "7d_DSS", "7d_DSS_2d_H2O", "7d_DSS_5d_H2O",
             "7d_DSS_7d_H2O", "7d_DSS_14d_H2O")
 
 for (i in seq_along(tissues)){
   for (j in seq_along(groups)){
-    data.list[[i]][[j]] <- results(tissues[i],
+    data.list[[i]][[j]] <- results(tissues[[i]],
                                    contrast = c("group", groups[j], "Untreated"))
   }
 }
