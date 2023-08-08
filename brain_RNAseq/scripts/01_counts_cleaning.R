@@ -1,3 +1,9 @@
+#In this file, we scrape the raw counts file from our GEO accession page (linked in the README)
+#We first filter on counts-per-million using the edgeR package, then we use DESeq2 and WGCNA to remove bad samples and genes
+#Samples are filtered based on distance in a dendrogram, and genes are further excluded on the basis of having zero variance or too many zero counts
+#After each gene/sample removal stage, we adjust the raw counts to reflect the cleaned data and re-normalize the data using DESeq2 to produce variance-stabilized counts.
+#At the end, we will have a .csv file containing the variance-stabilized counts, which will be the input to the WGCNA, and a DESeq2 object, which we can use for differential expression analyses.
+
 library(DESeq2)
 library(tidyverse)
 library(gtools)
@@ -266,3 +272,6 @@ all.equal(vsd, vsd0)
 #Save cleaned VST counts for later use
 write.csv(vsd, file = "brain_RNAseq/csv_outputs/vst_counts.csv",
           col.names = T, row.names = T)
+save(dds, brain_key, vsd,
+     file = "brain_RNAseq/data_objects/deseq2_objects.RData")
+
