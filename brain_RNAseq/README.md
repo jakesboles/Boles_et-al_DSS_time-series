@@ -4,6 +4,10 @@ The output from this analysis was used in 05.
 
 Please refer to Henry Cousins's [GSPA](https://github.com/henrycousins/gspa/tree/main) repository for installation and environment setup. I cloned the repository into our lab's partition of the University of Florida' HiPerGator 3.0 so I could run this analysis on a cluster instead of a local machine due to the amount of time I anticipated it would take. 
 
+This analysis considers only a subset of genes, based on high-confidence protein-protein interactions derived from the STRING database. Currently, it is constructed for human transcriptomics. As such, our mouse dataset was converted to human homologues and filtered to remove genes not found in the embeddings files included in the GSPA repository. For convenience, this list of nodes is included as `gspa_genes.csv` in this repository, but it was generated from the `humanppi_node_ids.p` file with the following commands in the command line: 
+```
+```
+
 Before running 05, grab the `.gmt` file containing the gene sets of interest. I used the gene symbols `.gmt` file from [MSigDB's human hallmark gene sets (v.2023.1.Hs)](https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp). Deposit this in `gspa/gene_sets` and name the file however you want. I called it `msigdb_hallmark.gtm` as I was testing other collections. 
 
 In script 04, a set of `.rnk` files are created. I put these files in their own `rnk_files` sub-directory. Then, Python v.3.10 was loaded in the HPC and the GSPA was run with the following commands in a Slurm script:
