@@ -20,8 +20,9 @@ OUTPUT=${i}
 python gspa.py \
 --rnk_file rnk_files/$INPUT \
 --gmt_file gene_sets/msigdb_hallmark.gmt \
---output_folder output/ \
+--output_folder gspa_output/ \
 --results_file $OUTPUT
 
 done
 ```
+After the analysis is finished, move the entire `gspa_output` folder into the `brain_RNAseq` directory of this GitHub repository. 
