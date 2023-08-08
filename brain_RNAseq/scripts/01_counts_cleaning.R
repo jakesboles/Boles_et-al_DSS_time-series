@@ -164,3 +164,53 @@ counts <- cbind(ctx_counts, mb_counts, hpc_counts, str_counts) #rebuild raw coun
 brain_key <- brain_key[brain_key$FileID %in% colnames(counts), ]
 
 #Re-normalize and variance stabilize with DESeq2
+dds <- DESeqDataSetFromMatrix(countData = counts,
+                              colData = brain_key,
+                              design = ~ tissue + group)
+dds <- DESeq(dds)
+vsd <- varianceStabilizingTransformation(dds, blind = T)
+vsd <- assay(vsd)
+
+#Recheck gene quality with the same steps as above
+ctx <- vsd[, colnames(vsd) %in% brain_key[grep("cortex", brain_key$tissue), ]$FileID]
+mb <- vsd[, colnames(vsd) %in% brain_key[grep("midbrain", brain_key$tissue), ]$FileID]
+hpc <- vsd[, colnames(vsd) %in% brain_key[grep("hippocampus", brain_key$tissue), ]$FileID]
+str <- vsd[, colnames(vsd) %in% brain_key[grep("striatum", brain_key$tissue), ]$FileID]  
+
+multiExpr <- vector(mode = "list", length = nSets)
+multiExpr[[1]] <- list(data = as.data.frame(t(ctx)))
+rownames(multiExpr[[1]]$data) <- names(ctx)
+
+multiExpr[[2]] <- list(data = as.data.frame(t(mb)))
+rownames(multiExpr[[2]]$data) <- names(mb)
+
+multiExpr[[3]] <- list(data = as.data.frame(t(hpc)))
+rownames(multiExpr[[3]]$data) <- names(hpc)
+
+multiExpr[[4]] <- list(data = as.data.frame(t(str)))
+rownames(multiExpr[[4]]$data) <- names(str)
+
+exprSize <- checkSets(multiExpr)
+exprSize
+
+gsg <- goodSamplesGenesMS(multiExpr, verbose = 10)
+gsg$allOK #this flags 5 more genes for removal 
+
+if (!gsg$allOK){
+  # Print information about the removed genes:
+  if (sum(!gsg$goodGenes) > 0)
+    printFlush(paste("Removing genes:", paste(names(multiExpr[[1]]$data)[!gsg$goodGenes],
+                                              collapse = ", ")))
+  for (set in 1:exprSize$nSets)
+  {
+    
+    if (sum(!gsg$goodSamples[[set]]))
+      printFlush(paste("In set", setLabels[set], "removing samples",
+                       paste(rownames(multiExpr[[set]]$data)[!gsg$goodSamples[[set]]], collapse = ", ")))
+    # Remove the offending genes and samples
+    multiExpr[[set]]$data = multiExpr[[set]]$data[gsg$goodSamples[[set]], gsg$goodGenes];
+  }
+  # Update exprSize
+  exprSize = checkSets(multiExpr)
+}
+exprSize
