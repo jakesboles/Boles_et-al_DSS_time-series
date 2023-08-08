@@ -26,3 +26,6 @@ python gspa.py \
 done
 ```
 After the analysis is finished, move the entire `gspa_output` folder into the `brain_RNAseq` directory of this GitHub repository. 
+
+## WGCNA
+Many of the operations performed to create and evaluate the consensus and tissue-specific co-expression networks, including the data prep, network construction, eigengene calculation, correlation with external features, and calculation of gene-level membership and trait association statistics, come directly from the [WGCNA tutorial](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). This is an excellent collection of resources. 
