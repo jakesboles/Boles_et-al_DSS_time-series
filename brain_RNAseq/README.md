@@ -4,7 +4,7 @@ The output from this analysis was used in 05.
 
 Please refer to Henry Cousins's [GSPA](https://github.com/henrycousins/gspa/tree/main) repository for installation and environment setup. I cloned the repository into our lab's partition of the University of Florida' HiPerGator 3.0 so I could run this analysis on a cluster instead of a local machine due to the amount of time I anticipated it would take. 
 
-This analysis considers only a subset of genes, based on high-confidence protein-protein interactions derived from the STRING database. Currently, it is constructed for human transcriptomics. As such, our mouse dataset was converted to human homologues and filtered to remove genes not found in the embeddings files included in the GSPA repository. For convenience, this list of nodes is included as `gspa_genes.csv` in this repository, but it was generated from the `humanppi_node_ids.p` file with the following commands in the command line: 
+This analysis considers only a subset of genes, based on high-confidence protein-protein interactions derived from the STRING database. Currently, it is built for human transcriptomics. As such, our mouse dataset was converted to human homologs and filtered to remove genes not found in the embeddings files included in the GSPA repository. For convenience, this list of nodes is included here as `gspa_genes.csv` in this repository, but it was generated from the `humanppi_node_ids.p` file with the following commands in the command line: 
 ```
 ```
 
