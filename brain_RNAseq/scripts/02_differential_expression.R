@@ -70,3 +70,39 @@ volcano <- function(data){
       plot.caption = element_text(size = 16)
     )
 }
+
+data.list <- vector("list", length = 4)
+for (i in seq_along(data.list)){
+  data.list[[i]] <- vector("list", length = 6)
+}
+
+tissues <- c(ctx_dds, hpc_dds, mb_dds, str_dds)
+groups <- c("5d_DSS", "7d_DSS", "7d_DSS_2d_H2O", "7d_DSS_5d_H2O",
+            "7d_DSS_7d_H2O", "7d_DSS_14d_H2O")
+
+for (i in seq_along(tissues)){
+  for (j in seq_along(groups)){
+    data.list[[i]][[j]] <- results(tissues[i],
+                                   contrast = c("group", groups[j], "Untreated"))
+  }
+}
+
+v <- vector("list", length = 4)
+for (i in seq_along(v)){
+  v[[i]] <- vector("list", length = 6)
+}
+
+for (i in 1:4){
+  for (j in 1:6){
+    v[[i]][[j]] <- volcano(data.list[[i]][[j]])
+  }
+}
+
+ggarrange(v[[1]][[1]], v[[1]][[2]], v[[1]][[3]], v[[1]][[4]], v[[1]][[5]], v[[1]][[6]],
+          v[[2]][[1]], v[[2]][[2]], v[[2]][[3]], v[[2]][[4]], v[[2]][[5]], v[[2]][[6]],
+          v[[3]][[1]], v[[3]][[2]], v[[3]][[3]], v[[3]][[4]], v[[3]][[5]], v[[3]][[6]],
+          v[[4]][[1]], v[[4]][[2]], v[[4]][[3]], v[[4]][[4]], v[[4]][[5]], v[[4]][[6]],
+          ncol = 6, nrow = 4)
+ggsave(filename = paste0(plots, "volcano_plots.png"),
+       units = "in", dpi = 600,
+       height = 15, width = 32)
