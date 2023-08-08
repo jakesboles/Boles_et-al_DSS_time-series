@@ -2,7 +2,7 @@
 In between scripts 04 and 05, a gene-set proximity analysis ([Cousins et al., 2023, *Bioinformatics*](https://academic.oup.com/bioinformatics/article/39/1/btac735/6832036?login=true)) was performed on the set of ranked gene lists generated in 04.
 The output from this analysis was used in 05. 
 
-Please refer to Henry Cousins's [GSPA](https://github.com/henrycousins/gspa/tree/main) repository for installation and environment setup. I cloned the repository into our lab's partition of the University of Florida' HiPerGator 3.0 so I could run this analysis on a cluster instead of a local machine due to the amount of time I anticipated it would take. 
+Please refer to Henry Cousins's [GSPA repository](https://github.com/henrycousins/gspa/tree/main) for installation and environment setup. I cloned the repository into our lab's partition of the University of Florida' HiPerGator 3.0 so I could run this analysis on a cluster instead of a local machine due to the amount of time I anticipated it would take. 
 
 This analysis considers only a subset of genes, based on high-confidence protein-protein interactions derived from the STRING database. Currently, it is built for human transcriptomics. As such, our mouse dataset was converted to human homologs and filtered to remove genes not found in the embeddings files included in the GSPA repository. For convenience, this list of nodes is included here as `gspa_genes.csv` in this repository, but it was generated from the `humanppi_node_ids.p` file with the following commands in the command line: 
 ```
