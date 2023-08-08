@@ -24,6 +24,8 @@ renv::install("Matrix")
 
 renv::install("usethis")
 
+renv::install("saeyslab/nichenetr")
+
 renv::settings$snapshot.type("all")
 
 renv::snapshot()
