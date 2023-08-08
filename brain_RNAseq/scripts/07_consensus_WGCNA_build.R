@@ -5,7 +5,7 @@
 library(WGCNA)
 
 options(stringsAsFactors = F)
-enableWGCNAThreads() #enable parallel processing will only work on a HPC of some sort 
+enableWGCNAThreads() #enable parallel processing will only work on an HPC of some sort 
 
 plots <- "brain_RNAseq/plots/"
 
