@@ -24,8 +24,6 @@ mapfun <- function(mousegenes){
   out
 }
 
-dir.create("brain_RNAseq/gspa_input")
-
 #INSERT DESEQ2 OBJECT LOADING HERE
 
 c_gr1 <- as.data.frame(lfcShrink(c_dds, coef = "group_5d_DSS_vs_Untreated", type = "apeglm"))
