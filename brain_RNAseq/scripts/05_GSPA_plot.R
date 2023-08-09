@@ -20,19 +20,18 @@ tbl <-
              full.names = T) %>%
   map_df(~read_plus(.))
 
-bonf <- 50 * 24
+bonf <- 24
 
 file <- tbl$filename
 file <- unlist(strsplit(file, "/", fixed = T)) 
-file <- file[c(F, F, F, F, T)]
+file <- file[c(F, F, T)]
 file <- str_remove_all(file, ".csv")
 file <- substr(file, 1, 5)
 
 tbl$filename <- file 
 
-tbl %>%
-  mutate(FDR = FDR * bonf %>%
-           if_else(FDR > 1, 1, FDR)) %>%
+tbl <- tbl %>%
+  mutate(FDR = FDR * bonf) %>%
   separate(filename, into = c("tissue", "group"), sep = "_") %>%
   mutate(tissue = factor(tissue,
                          levels = c("c", "h", "m", "s"),
