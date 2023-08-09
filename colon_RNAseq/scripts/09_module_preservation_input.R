@@ -186,3 +186,7 @@ system.time({
                              networkType = "signed hybrid",
                              parallelCalculation = F)
 })
+
+save(mp.d1, mp.d2, mp.d3,
+     mp.p1, mp.p2, mp.p3,
+     file = "colon_RNAseq/data_objects/module_preservation.RData")
