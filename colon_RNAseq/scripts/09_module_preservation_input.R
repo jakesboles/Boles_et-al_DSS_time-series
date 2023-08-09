@@ -1,6 +1,7 @@
 #This script scrapes the three publicly available datasets off of GEO and prepares them for module preservation analysis
 #These datasets are cleaned such that only genes found in our original data will be included in them 
-#At the end, this script conducts the actual preservation analyses and saves them as data objects
+#These cleaned expression matrices are saved for the preservation analysis and later calculation of eigengenes, etc
+
 library(openxlsx)
 library(tidyverse)
 library(WGCNA)
@@ -67,9 +68,13 @@ for (i in seq_along(dfs)){
 key <- data.frame(color = moduleColors,
                   gene = genes)
 keys <- vector(mode = "list", length = 4)
+names(keys) <- names(dfs)
 colors <- vector(mode = "list", length = 4)
+names(colors) <- names(dfs)
 samples <- vector(mode = "list", length = 4)
+names(samples) <- names(dfs)
 genes <- vector(mode = "list", length = 4)
+names(genes) <- names(dfs)
 for (i in seq_along(keys)){
   #Make named color vector, which identifies module members
   keys[[i]] <- key[key$gene %in% colnames(dfs[[i]]), ]
@@ -88,105 +93,16 @@ for (i in seq_along(keys)){
 dcolon <- multiExpr[[1]]$data
 pcolon <- multiExpr[[2]]$data
 
-dcolon.1 <- dcolon[, genes[[1]]]
-dcolon.2 <- dcolon[, genes[[2]]]
-dcolon.3 <- dcolon[, genes[[4]]]
+dcolon.1 <- dcolon[, genes$gse1]
+dcolon.2 <- dcolon[, genes$gse2_distal]
+dcolon.3 <- dcolon[, genes$gse3]
 
-pcolon.1 <- pcolon[, genes[[1]]]
-pcolon.2 <- pcolon[, genes[[3]]]
-pcolon.3 <- pcolon[, genes[[4]]]
+pcolon.1 <- pcolon[, genes$gse1]
+pcolon.2 <- pcolon[, genes$gse2_distal]
+pcolon.3 <- pcolon[, genes$gse3]
 
-#Distal colon vs GSE131032----
-setLabels <- c("Distal", "GSE131032")
-multiExpr <- list(Distal = list(data = dcolon.1), GSE131032 = list(data = dfs[[1]]))
-multiColor <- list(Distal = colors[[1]], GSE131032 = colors[[1]])
-nSets <- 2
-
-system.time({
-  mp.d1 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-#Distal colon vs GSE168053 (distal)----
-setLabels <- c("Distal", "GSE168053_dist")
-multiExpr <- list(Distal = list(data = dcolon.2), GSE131032 = list(data = dfs[[2]]))
-multiColor <- list(Distal = colors[[2]], GSE131032 = colors[[2]])
-nSets <- 2
-
-system.time({
-  mp.d2 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-#Distal colon vs GSE210405----
-setLabels <- c("Distal", "GSE210405")
-multiExpr <- list(Distal = list(data = dcolon.3), GSE131032 = list(data = dfs[[4]]))
-multiColor <- list(Distal = colors[[4]], GSE131032 = colors[[4]])
-nSets <- 2
-
-system.time({
-  mp.d3 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-#Proximal colon vs GSE131032----
-setLabels <- c("Proximal", "GSE131032")
-multiExpr <- list(Proximal = list(data = pcolon.1), GSE131032 = list(data = dfs[[1]]))
-multiColor <- list(Proximal = colors[[1]], GSE131032 = colors[[1]])
-nSets <- 2
-
-system.time({
-  mp.p1 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-#Proximal colon vs GSE168053 (proximal)----
-setLabels <- c("Proximal", "GSE168053_dist")
-multiExpr <- list(Proximal = list(data = pcolon.2), GSE131032 = list(data = dfs[[3]]))
-multiColor <- list(Proximal = colors[[3]], GSE131032 = colors[[3]])
-nSets <- 2
-
-system.time({
-  mp.p2 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-#Proximal colon vs GSE210405----
-setLabels <- c("Proximal", "GSE210405")
-multiExpr <- list(Proximal = list(data = pcolon.3), GSE131032 = list(data = dfs[[4]]))
-multiColor <- list(Proximal = colors[[4]], GSE131032 = colors[[4]])
-nSets <- 2
-
-system.time({
-  mp.p3 = modulePreservation(multiExpr, multiColor,
-                             referenceNetworks = 1,
-                             nPermutations = 200,
-                             randomSeed = 1,
-                             verbose = 5,
-                             networkType = "signed hybrid",
-                             parallelCalculation = F)
-})
-
-save(mp.d1, mp.d2, mp.d3,
-     mp.p1, mp.p2, mp.p3,
-     file = "colon_RNAseq/data_objects/module_preservation.RData")
+save(dcolon.1, dcolon.2, dcolon.3,
+     pcolon.1, pcolon.2, pcolon.3,
+     colors, keys, samples, genes, 
+     dfs,
+     file = "colon_RNAseq/data_objects/module_preservation_input.RData")
