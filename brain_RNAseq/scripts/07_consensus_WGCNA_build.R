@@ -196,4 +196,4 @@ plotDendroAndColors(consTree, cbind(unmergedColors, moduleColors),
                     addGuide = T, guideHang = 0.05)
 dev.off()
 
-save(consMEs, moduleColors, moduleLabels, consTree, file = "consensus_network.RData")
+save(consMEs, moduleColors, moduleLabels, consTree, file = "brain_RNAseq/data_objects/consensus_network.RData")
