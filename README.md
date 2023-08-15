@@ -3,7 +3,7 @@
 **This repository is currently under construction**
 
 ### This repository contains code to reproduce analysis results and visualizations for data in:
-### [**A leaky gut dysregulates gene networks in the brain associated with immune activation, oxidative stress, and myelination in a mouse model of colitis (*bioRxiv*)](https://www.biorxiv.org/content/10.1101/2023.08.10.552488v1)
+### [**A leaky gut dysregulates gene networks in the brain associated with immune activation, oxidative stress, and myelination in a mouse model of colitis** (*bioRxiv*)](https://www.biorxiv.org/content/10.1101/2023.08.10.552488v1)
 Jake Sondag Boles<sup>1</sup>, Maeve E. Krueger, Janna E. Jernigan, Cassandra L. Cole, Noelle K. Neighbarger, Oihane Uriarte Huarte, & Malú Gámez Tansey.
 
 <sup><sup>1</sup> Analysis lead and contact (jake.boles@ufl.edu)</sup>
