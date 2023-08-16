@@ -9,6 +9,7 @@ options(stringsAsFactors = F)
 load("brain_RNAseq/consensus_WGCNA_input.RData")
 load("brain_RNAseq/data_objects/consensus_network.RData")
 
+#Enrichment analysis------------------------------------------------------------
 symbol <- colnames(multiExpr[[1]]$data)
 
 entrez <- convert2entrez(organism = "Mus musculus", symbol = symbol)
@@ -131,3 +132,169 @@ combined <- enrichmentAnalysis(classLabels = moduleColors,
                                maxReportedOverlapGenes = 300)
 
 df <- combined$enrichmentTable
+
+#Preparing data frame for visualizations----------------------------------------
+extract_transform_value <- function(string) {
+  # Check if "WIKIPATHWAYS" is present
+  if (grepl("WIKIPATHWAYS", string)) {
+    transformed_value <- gsub(".*WIKIPATHWAYS.*", "WIKIPATHWAYS", string)
+  } else {
+    transformed_value <- string
+  }
+  
+  transformed_value
+}
+# Apply the function to the strings column
+df$inGroups <- sapply(df$inGroups, extract_transform_value)
+
+extract_transform_value <- function(string) {
+  # Check if "MH" is present
+  if (grepl("MH", string)) {
+    transformed_value <- gsub(".*MH.*", "MSIGDB", string)
+  } else {
+    transformed_value <- string
+  }
+  
+  transformed_value
+}
+# Apply the function to the strings column
+df$inGroups <- sapply(df$inGroups, extract_transform_value)
+
+extract_transform_value <- function(string) {
+  # Check if "CGP" is present
+  if (grepl("CGP", string)) {
+    transformed_value <- gsub(".*CGP.*", "MSIGDB CGP", string)
+  } else {
+    transformed_value <- string
+  }
+  
+  transformed_value
+}
+# Apply the function to the strings column
+df$inGroups <- sapply(df$inGroups, extract_transform_value)
+
+extract_transform_value <- function(string) {
+  # Check if "MH" is present
+  if (grepl("BIOCARTA", string)) {
+    transformed_value <- gsub(".*BIOCARTA.*", "BIOCARTA", string)
+  } else {
+    transformed_value <- string
+  }
+  
+  transformed_value
+}
+# Apply the function to the strings column
+df$inGroups <- sapply(df$inGroups, extract_transform_value)
+
+extract_transform_value <- function(string) {
+  # Check if "GO.BP" is present
+  if (grepl("", string)) {
+    transformed_value <- gsub(".*GO.BP.*", "GO.BP", string)
+  } else {
+    transformed_value <- string
+  }
+  
+  transformed_value
+}
+# Apply the function to the strings column
+df$inGroups <- sapply(df$inGroups, extract_transform_value)
+
+df$dataSetName <- gsub("\\s*\\([^)]+\\)", "", df$dataSetName)
+
+convert_pathway_names <- function(string) {
+  # Split the string by '|' or underscores
+  words <- unlist(strsplit(string, "[|_]"))
+  
+  # Convert each word to uppercase
+  words_upper <- toupper(words)
+  
+  # Join the words with spaces in between
+  converted_string <- paste(words_upper, collapse = " ")
+  
+  converted_string
+}
+df$dataSetName <- sapply(df$dataSetName, convert_pathway_names)
+
+df$geneSet <- paste(df$inGroups,
+                    df$dataSetName,
+                    sep = ": ")
+unique(df$inGroups)
+#Plotting-----------------------------------------------------------------------
+lollipop <- function(module, titlecolor = NULL){
+  d <- df %>%
+    mutate(fracOfEffectiveClassSize = 100 * fracOfEffectiveClassSize) %>%
+    subset(class == module) %>%
+    #mutate(dataSetName = paste(inGroups,
+    #                           dataSetName,
+    #                           sep = ": ")) %>%
+    arrange(pValue) %>%
+    mutate(geneSet = factor(geneSet,
+                            levels = geneSet))
+  
+  print(nrow(d))
+  
+  title <- str_to_title(module)
+  
+  if(!is.null(c(top, bottom))) d <- d[top:bottom,]
+  
+  if(is.null(titlecolor)) titlecolor <- module
+  
+  d %>%
+    ggplot(aes(x = -log10(FDR), y = geneSet)) + 
+    geom_segment(aes(x = 0, xend = -log10(FDR), 
+                     y = geneSet, yend = geneSet,
+                     color = enrichmentRatio), 
+                 size = 10) +
+    #geom_point(aes(color = nCommonGenes, x = enrichmentRatio)) + 
+    scale_y_discrete(labels = label_wrap(45),
+                     limits = rev) +
+    scale_color_paletteer_c("grDevices::Viridis",
+                            direction = 1,
+                            limits = c(0, 140)
+    ) +
+    geom_vline(xintercept = -log10(0.05),
+               linetype = "twodash",
+               linewidth = 1.5) +
+    labs(x = "-log10(FDR)",
+         color = "Enrichment\nscore") + 
+    #ggtitle(paste0(title, " functional enrichment")) +
+    guides(color=guide_colourbar(barheight=20,label.position="right",
+                                 barwidth = 2, title.hjust = 0.5,
+                                 title.position = "top")) +
+    theme_bw() +
+    theme(axis.title.y = element_blank(),
+          axis.text.y = element_text(size = 20, color = "black", face = "bold"),
+          legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.x = element_text(size = 15, color = "black"),
+          #plot.title = element_text(size = 28, color = titlecolor, face = "bold")
+    )
+}
+
+#FINAL FIGURES:
+#Generate plots for different data bases separately because set size varies \
+#significantly between MSigDB and GO
+(mnb <- lollipop("midnightblue"))
+ggsave("brain_RNAseq/plots/consensus_midnightblue_annotation.png", units = "in",
+       dpi = 600, height = 8, width = 12)
+
+(cyan <- lollipop("cyan", titlecolor = "cyan3"))
+ggsave("brain_RNAseq/plots/consensus_cyan_annotation.png", units = "in",
+       dpi = 600, height = 10, width = 10)
+
+(darkgrey <- lollipop("darkgrey"))
+ggsave("brain_RNAseq/plots/consensus_darkgrey_annotation.png", units = "in",
+       dpi = 600, height = 10, width = 10)
+
+(paleturquoise <- lollipop("paleturquoise", titlecolor = "paleturquoise4"))
+ggsave("brain_RNAseq/plots/consensus_paleturquoise_annotation.png", units = "in",
+       dpi = 600, height = 10, width = 10)
+
+up <- ggarrange(cyan, darkgrey, paleturquoise,
+                nrow = 1, ncol = 3,
+                common.legend = T,
+                legend = "right")
+ggsave(up, filename = "brain_RNAseq/plots/consensus_up_annotation.png",
+       units = "in", dpi = 600,
+       height = 8, width = 30)
