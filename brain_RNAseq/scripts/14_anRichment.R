@@ -3,6 +3,15 @@
 
 library(WGCNA)
 library(anRichment)
+library(ggplot2)
+library(tidyverse)
+library(stringr)
+library(RColorBrewer)
+library(paletteer)
+library(forcats)
+library(scales)
+library(cowplot)
+library(ggpubr)
 
 options(stringsAsFactors = F)
 
