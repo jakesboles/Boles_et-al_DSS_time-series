@@ -120,3 +120,14 @@ biocartaCollection <- subsetCollection(msdbCollection,
 combinedCollection <- mergeCollections(smallGOcollection, biocartaCollection,
                                        keggCollection, mhCollectrion,
                                        reactomeCollection, wikiCollection)
+
+combined <- enrichmentAnalysis(classLabels = moduleColors,
+                               identifiers = entrez,
+                               refCollection = combinedCollection,
+                               useBackground = "given",
+                               threshold = 0.05,
+                               thresholdType = "FDR",
+                               getOverlapSymbols = T,
+                               maxReportedOverlapGenes = 300)
+
+df <- combined$enrichmentTable
