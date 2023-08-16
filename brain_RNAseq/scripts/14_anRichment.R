@@ -140,6 +140,10 @@ combined <- enrichmentAnalysis(classLabels = moduleColors,
                                getOverlapSymbols = T,
                                maxReportedOverlapGenes = 300)
 
+write.csv(combined$enrichmentTable, 
+          file = "brain_RNAseq/csv_outputs/anRichment_output.csv",
+          row.names = F)
+
 df <- combined$enrichmentTable
 
 #Preparing data frame for visualizations----------------------------------------
