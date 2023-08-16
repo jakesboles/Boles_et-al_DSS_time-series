@@ -234,54 +234,75 @@ df$geneSet <- paste(df$inGroups,
                     sep = ": ")
 unique(df$inGroups)
 #Plotting-----------------------------------------------------------------------
-lollipop <- function(module, titlecolor = NULL){
-  d <- df %>%
+lollipop <- function(module, titlecolor = NULL, wrap = NULL){
+  d <- data %>%
     mutate(fracOfEffectiveClassSize = 100 * fracOfEffectiveClassSize) %>%
     subset(class == module) %>%
+    distinct(geneSet, .keep_all = T) %>%
     #mutate(dataSetName = paste(inGroups,
     #                           dataSetName,
     #                           sep = ": ")) %>%
     arrange(pValue) %>%
     mutate(geneSet = factor(geneSet,
-                            levels = geneSet))
-  
-  print(nrow(d))
+                            levels = geneSet)) %>%
+    slice_head(n = 10)
   
   title <- str_to_title(module)
   
-  if(!is.null(c(top, bottom))) d <- d[top:bottom,]
-  
   if(is.null(titlecolor)) titlecolor <- module
+  if(is.null(wrap)) wrap <- 20
   
   d %>%
     ggplot(aes(x = -log10(FDR), y = geneSet)) + 
-    geom_segment(aes(x = 0, xend = -log10(FDR), 
-                     y = geneSet, yend = geneSet,
-                     color = enrichmentRatio), 
-                 size = 10) +
-    #geom_point(aes(color = nCommonGenes, x = enrichmentRatio)) + 
-    scale_y_discrete(labels = label_wrap(45),
-                     limits = rev) +
-    scale_color_paletteer_c("grDevices::Viridis",
-                            direction = 1,
-                            limits = c(0, 140)
-    ) +
+    geom_col(fill = module, color = "black") +
+    #geom_point(aes(color = nCommonGenes),
+    #           size = 12) + 
+    scale_y_discrete(labels = label_wrap(wrap),
+                     limit = rev) +
+    scale_color_paletteer_c("grDevices::Spectral",
+                            direction = 1) +
     geom_vline(xintercept = -log10(0.05),
                linetype = "twodash",
                linewidth = 1.5) +
     labs(x = "-log10(FDR)",
-         color = "Enrichment\nscore") + 
-    #ggtitle(paste0(title, " functional enrichment")) +
+         color = "# of\noverlapping\ngenes") + 
+    ggtitle(paste0(title)) +
     guides(color=guide_colourbar(barheight=20,label.position="right",
                                  barwidth = 2, title.hjust = 0.5,
                                  title.position = "top")) +
-    theme_bw() +
+    theme_bw(base_size = 12) +
     theme(axis.title.y = element_blank(),
           axis.text.y = element_text(size = 20, color = "black", face = "bold"),
           legend.text = element_text(size = 12),
           legend.title = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.x = element_text(size = 15, color = "black"),
-          #plot.title = element_text(size = 28, color = titlecolor, face = "bold")
-    )
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.x = element_text(size = 16, color = "black"),
+          plot.title = element_text(size = 20, color = "black", face = "bold",
+                                    hjust = 0.5))
+}
+
+saveplot <- function(filename){
+  ggsave(paste0("colon_RNAseq/plots/", filename),
+         units = "in", dpi = 600,
+         height = 9, width = 8)
+}
+
+fig2 <- c("blueviolet", "darkseagreen3", "orange", "darkorange", "red", "firebrick3")
+fig2_wrap <- c()
+sfig4 <- c("coral2", "coral3", "white", "thistle2")
+sfig4_wrap <- c()
+sfig5 <- c("brown", "coral", "darkolivegreen4", "lightpink3", "coral1", "indianred4", "darkslateblue")
+sfig5_wrap <- c()
+sfig6 <- c("floralwhite", "lightcoral", "salmon", "tan")
+sfig6_wrap <- c()
+
+figs <- list(fig2, sfig4, sfig5, sfig6)
+wraps <- list(fig2_wrap, sfig4_wrap, sfig5_wrap, sfig6_wrap)
+
+for (i in seq_along(figs)){
+  for (j in seq_along(figs[[i]])){
+    lollipop(figs[[i]][j], wrap = wraps[[i]][j])
+    
+    saveplot(paste0(deparse_substitute(figs[[i]]), "_", figs[[i]][j], ".png"))
+  }
 }
