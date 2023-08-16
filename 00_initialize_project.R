@@ -11,3 +11,6 @@ dir.create(paste0(dir1[1], "gspa_input"))
 dir.create(paste0(dir1[1], "gspa_output"))
 
 renv::restore()
+
+source("https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/GeneAnnotation/installAnRichment.R")
+installAnRichment()
