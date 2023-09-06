@@ -48,7 +48,7 @@ df2 <- df %>%
   pivot_longer(cols = -c(FileID,id, sex, group, tissue),
                names_to = "module", values_to = "eigengene") %>%
   mutate(module = str_remove_all(module, "ME") %>%
-           str_to_title)
+           str_to_title())
 
 genes <- colnames(multiExpr[[1]]$data)
 
